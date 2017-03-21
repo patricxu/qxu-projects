@@ -1,0 +1,1 @@
+/usr/bin/cc     CMakeFiles/app.dir/main.c.o  -o app -rdynamic ../calc/libcalc.a 

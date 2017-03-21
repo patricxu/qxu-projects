@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/src/app/main.c
+stdio.h
+-
+calc/calc.h
+-
+
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/src/calc/calc.h
+

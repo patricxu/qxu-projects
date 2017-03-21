@@ -1,0 +1,8 @@
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/build/CMakeFiles/edit_cache.dir
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/build/CMakeFiles/rebuild_cache.dir
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/build/calc/CMakeFiles/rebuild_cache.dir
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/build/calc/CMakeFiles/edit_cache.dir
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/build/calc/CMakeFiles/calc.dir
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/build/app/CMakeFiles/rebuild_cache.dir
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/build/app/CMakeFiles/edit_cache.dir
+/home/qxu/shared/qxu-projects/c/cmaketest/lib1/build/app/CMakeFiles/app.dir
