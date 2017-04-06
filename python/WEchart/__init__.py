@@ -4,9 +4,9 @@ import json
 import logging
 import tempfile
 import webbrowser
-from option import Base
-from option import Axis, Legend, Series, Tooltip, Toolbox, VisualMap
-from datastructure import *
+from .option import Base
+from .option import Axis, Legend, Series, Tooltip, Toolbox, VisualMap
+from .datastructure import *
 from IPython.display import HTML
 
 __version__ = '0'
