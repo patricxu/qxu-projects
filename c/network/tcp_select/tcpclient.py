@@ -4,7 +4,7 @@ import time
 import pdb
 
 HOST = '127.0.0.1'    # The remote host
-PORT = 5188              # The same port as used by the server
+PORT = 5189              # The same port as used by the server
 
 g_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 g_sock.connect((HOST, PORT))
