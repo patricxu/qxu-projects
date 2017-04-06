@@ -15,7 +15,7 @@
 #include <map>
 #include "Buff.h"
 
-#define PORT "5188" // 我們正在 listen 的 port
+#define PORT "5189" // 我們正在 listen 的 port
 #define MAXINT32 0x7fffffff
 #define HEADER_SIZE 8
 #define MAXPACKLEN (8192 + HEADER_SIZE)
