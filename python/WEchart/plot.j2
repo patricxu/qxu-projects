@@ -1,0 +1,14 @@
+<div id='chart2' style="width:800px; height:600px;"></div>
+<script>
+    require.config({
+         paths:{
+            echarts: '//cdn.bootcss.com/echarts/3.2.3/echarts.min',
+         }
+    });
+
+    require(['echarts'],function(ec){
+                var myChart = ec.init(document.getElementById('chart2'));
+                var option = {{ opt }};
+                myChart.setOption(option);
+    });
+</script>
