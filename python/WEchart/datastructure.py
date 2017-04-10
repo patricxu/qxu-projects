@@ -7,7 +7,7 @@
     Datastructure for describing the chart types.
 """
 
-from option import Series
+from .option import Series
 
 
 class Line(Series):
