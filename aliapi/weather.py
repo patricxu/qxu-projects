@@ -1,10 +1,10 @@
-import urllib, urllib2, sys
-
+import sys
+import urllib.request as urllib2
 
 host = 'http://saweather.market.alicloudapi.com'
 path = '/area-to-id'
 method = 'GET'
-appcode = '你自己的AppCode'
+appcode = '4bd498ca250b4a5ea430227fa1eb4768'
 querys = 'area=%E4%B8%BD%E6%B1%9F'
 bodys = {}
 url = host + path + '?' + querys
