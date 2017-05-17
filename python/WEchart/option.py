@@ -8,7 +8,23 @@
 """
 
 import json
+import re
 
+class JSObj(object):
+    def __init__(self, objstr, key='', scope='local'):
+        assert isinstance(objstr, str)
+        if key:
+            assert isinstance(key, str)
+            self.key = key
+        self.objstr = re.sub(r'\n|[^:]//.{0,}\n|/\*[\s\S]*\*/', '', objstr)
+        #self.objstr = re.sub(r'\n|/\*[\s\S]*\*/', '', objstr)
+
+        self.scope = scope
+
+    @property
+    def json(self):
+        tmpstr = str('<jsobj>'+self.objstr+'</jsobj>')
+        return tmpstr
 
 class Base(object):
     def __str__(self):
@@ -30,7 +46,7 @@ class Axis(Base):
     """Axis data structure."""
 
     def __init__(self, type, position, name='', data=None, **kwargs):
-        assert type in ('category', 'value', 'time')
+        assert type in ('category', 'value', 'time', 'log')
         self.type = type
         assert position in ('bottom', 'top', 'left', 'right')
         self.position = position
@@ -87,19 +103,19 @@ class Legend(Base):
 
 class Tooltip(Base):
     """A tooltip when hovering."""
-
     def __init__(self, trigger='axis', **kwargs):
-        assert trigger in ('axis', 'item')
-        self.trigger = trigger
+        if trigger:
+            self.trigger = trigger
 
         self._kwargs = kwargs
 
     @property
     def json(self):
         """JSON format data."""
-        json = {
-            'trigger': self.trigger,
-        }
+        json = {}
+        if hasattr(self, 'trigger'):
+            json['trigger'] = self.trigger
+
         if self._kwargs:
             json.update(self._kwargs)
         return json
@@ -157,7 +173,108 @@ class Toolbox(Base):
             json.update(self._kwargs)
         return json
 
-    
+class DataZoom(Base):
+    def __init__(self, objs):
+        self.objs = objs
+
+    @property
+    def json(self):
+        assert isinstance(self.objs, list)
+        return self.objs
+
+class Polar(Base):
+    def __init__(self):
+        pass
+
+    @property
+    def json(self):
+        json = {}
+        return json
+
+class AngleAxis(Base):
+    def __init__(self, type='value', startAngle=0, **kwargs):
+        self.type = type
+        self.startangle = startAngle
+        self._kwargs = kwargs
+
+    @property
+    def json(self):
+        json = {
+            'type': self.type,
+            'startAngle': self.startangle
+        }
+        if self._kwargs:
+            json.update(self._kwargs)
+        return  json
+
+class Grid(Base):
+    def __init__(self, **kwargs):
+        self._kwargs = kwargs
+
+    @property
+    def json(self):
+        json = {}
+        if self._kwargs:
+            json.update(self._kwargs)
+        return  json
+
+class RadarCoord(Base):
+    def __init__(self, **kwargs):
+        self._kwargs = kwargs
+
+    @property
+    def json(self):
+        json = {}
+        if self._kwargs:
+            json.update(self._kwargs)
+        return  json
+
+class RadiusAxis(Base):
+    def __init__(self):
+        pass
+
+    @property
+    def json(self):
+        json = {}
+        return json
+
+class BackgroundColor(Base):
+    def __init__(self, color=None, **kwargs):
+        self.color = color
+        self._kwargs = kwargs
+        pass
+
+    @property
+    def json(self):
+        if isinstance(self.color, JSObj):
+            return self.color.json
+        elif isinstance(self.color, str):
+            return self.color
+
+        json = {}
+        if self._kwargs:
+            json.update(self._kwargs)
+        return json
+
+class Title(Base):
+    def __init__(self, text='', subtext='', left='left', **kwargs):
+        self.text = text
+        self.subtext = subtext
+        self.left = left
+        self._kwargs = kwargs
+        pass
+
+    @property
+    def json(self):
+        json = {
+            'text': self.text,
+            'subtext': self.subtext,
+            'left': self.left,
+        }
+        if self._kwargs:
+            json.update(self._kwargs)
+        return json
+
 class VisualMap(Base):
     """maps data to visual channels"""
 
@@ -179,3 +296,4 @@ class VisualMap(Base):
         if self._kwargs:
             json.update(self._kwargs)
         return json
+

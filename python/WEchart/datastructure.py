@@ -7,7 +7,7 @@
     Datastructure for describing the chart types.
 """
 
-from .option import Series
+from option import Series
 
 
 class Line(Series):
@@ -58,20 +58,17 @@ class Boxplot(Series):
             'boxplot', name=name, data=data, **kwargs
         )
 
-
 class Candlestick(Series):
     def __init__(self, name=None, data=None, **kwargs):
         super(Candlestick, self).__init__(
             'candlestick', name=name, data=data, **kwargs
         )
 
-
 class Heatmap(Series):
     def __init__(self, name=None, data=None, **kwargs):
         super(Heatmap, self).__init__(
             'heatmap', name=name, data=data, **kwargs
         )
-
 
 class Map(Series):
     def __init__(self, name=None, data=None, **kwargs):
