@@ -14,3 +14,8 @@ extern "C" int DllTestCB(int (* callback)( char* ), char* str)
 	return 0;
 }
 
+extern "C" int DllTestCB2(char** str)
+{
+	*str = "hello!";
+	return 0;
+}

@@ -12,3 +12,7 @@ _callback = CMPFUNC(callback)
 somlib = CDLL("./libsome.so")
 
 res = somlib.DllTestCB(_callback, b"call dlltestcb")
+
+ptr = c_char_p()
+res = somlib.DllTestCB2(byref(ptr))
+print(ptr.value)
