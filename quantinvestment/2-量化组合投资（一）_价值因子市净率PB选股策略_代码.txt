@@ -1,0 +1,96 @@
+﻿__author__ = 'TY_20172221642314'
+
+# value stock strategy
+# utilize value effect to gain excess return
+# select high book-to-market ratio stocks from HS300 components
+
+from java.util.concurrent import TimeUnit
+from java.time import LocalDate
+from java.time import LocalDateTime
+
+class Main(Algorithm):
+    # 在类里面声明或者定义成员变量
+    
+    def init(self):
+        # 设置后验的起始时间以及结束时间
+        # 大宽网会根据这个时间来加载数据
+        
+        self.setStartDate(2014, 1, 1)
+        self.setEndDate(2014, 12, 31)
+        
+        # 设置策略的行情驱动周期
+        # MIN_10表示每十分钟调用一次onData()函数
+        
+        self.setDrive(TimeFrame.SEASON)
+        
+        # 设置账户的初始资金
+        # self.setCash(10000)
+        
+    # onData()函数会根据驱动周期以及timer的设置每隔一段时间调用一次
+    # 在onData()里面用户可以实现自己策略的核心代码
+    def onData(self):
+        
+        # access HS300 components stock list
+        HS300 = self.getIndexStocks("000300")[0:9]
+        
+        # access quotation data and financial report data of HS300 components
+        # calculate correponding book-to-market ratios and store them into a dictionary
+        bookToMarket = {}
+        for iterCode in HS300:
+            # self.info(iterCode)
+            iterClosePrice = self.PickQuoteData(iterCode, TimeFrame.DAY, self.time().toLocalDate()).price()
+            # self.info(iterClosePrice)
+            iterFundamentals = self.getFundamentals( iterCode, Category.BALANCE, self.time().toLocalDate().plusDays(-100), self.time().toLocalDate() )
+            if iterFundamentals:
+                iterTotalStock = (iterFundamentals[0]).totalStock
+                # self.info(iterTotalStock)
+                iterTotalOwnerEquity = (iterFundamentals[0]).totalOwnerEquity
+                # self.info(iterTotalOwnerEquity)
+                iterBM = iterTotalOwnerEquity / iterClosePrice / iterTotalStock
+                # self.info(iterBM)
+                bookToMarket.update({iterCode:iterBM})
+            else:
+                self.info("Fundamental data of " + str(iterCode) + " is empty.")
+        # self.info(bookToMarket)
+        
+        # sort book-to-market ratio in descending order
+        sortedBM = sorted(bookToMarket.items(), key = lambda d:d[1], reverse = True)
+        self.info(sortedBM)
+        
+        # select the 5 highest book-to-market ratio stocks and stock them into a list
+        selectedStockPool = []
+        for iterSortedResult in sortedBM:
+            selectedStockPool.append(iterSortedResult[0])
+            if len(selectedStockPool) >= 5:
+                break
+        # self.info(selectedStockPool)
+        
+        # set equal portfolio weight for selectedStockPool
+        self.lazyRecordWeightBook(self.createEqualWeight(selectedStockPool),self.time().toLocalDate())
+        
+        # 打印日志
+        # self.info('hello world')
+        
+        # 使用plot画出一些数据
+        ### self.plot('平仓盈亏', self.portfolio.getCloseGainLoss())
+        ### self.plot('手续费', self.portfolio.getTotalFee())
+        
+    # onComplete()在策略运行结束的时候调用
+    def onComplete(self):
+        
+        self.lazyEvaluate()
+        self.info('策略运行完毕')
+        
+ ####################################################################
+ # ** Copyright (C)2017 北京量邦信息科技股份有限公司版权所有 
+ # ** 时间： 2017-01-30 
+ # ** 开发者：北京量邦信息科技股份有限公司 
+ # ** 编译平台：大宽网 java平台 
+ # ** 使用声明：本程序包括文档为北京量邦信息科技股份有限公司所有。
+ # ** 任何人可以在网络传播或者转载，但需保留版权信息。 
+ # ** 对于擅自更改版权信息，量邦公司将保留追究其法律责任权利. 
+ # ** 联系方式：info@quanttech.cn 
+ # ** 客服电话：400-1086-811
+ # ** 公司网址： http://www.quanttech.cn 
+ # ** 大宽网： http://wwww.daquant.com
+ ####################################################################
